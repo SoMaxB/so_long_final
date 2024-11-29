@@ -47,7 +47,6 @@ char	*ft_read(int fd, char *storage)
 			break ;
 	}
 	free(buffer);
-	//printf("EOF Alcanzado\n");
 	return (storage);
 }
 

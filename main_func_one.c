@@ -15,9 +15,12 @@
 int	handle_close(t_mlx_data *data)
 {
 	ft_printf("The window has been closed.\n\n");
+	destroy_images(data);
+	destroy_game(data->game);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	mlx_destroy_display(data->mlx_ptr);
 	free(data->mlx_ptr);
+	data->mlx_ptr = NULL;
 	exit(0);
 	return (0);
 }

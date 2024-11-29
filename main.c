@@ -59,6 +59,27 @@ void	destroy_images(t_mlx_data *data)
 	}
 }
 
+void	destroy_game(t_game *game)
+{
+	int	i;
+
+	if (game == NULL)
+		return ;
+	if (game->map)
+	{
+		i = 0;
+		while (i < game->line_y)
+		{
+			free(game->map[i]);
+			free(game->map_cpy[i]);
+			i++;
+		}
+		free(game->map);
+		game->map = NULL;
+		free(game->map_cpy);
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	int			fd;
