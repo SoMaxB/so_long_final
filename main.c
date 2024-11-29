@@ -30,6 +30,35 @@ void	init_game(t_game *game)
 	game->moves = 0;
 }
 
+void	destroy_images(t_mlx_data *data)
+{
+	if (data->game->im->coll)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->game->im->coll);
+		data->game->im->coll = NULL;
+	}
+	if (data->game->im->exit)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->game->im->exit);
+		data->game->im->exit = NULL;
+	}
+	if (data->game->im->floor)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->game->im->floor);
+		data->game->im->floor = NULL;
+	}
+	if (data->game->im->player)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->game->im->player);
+		data->game->im->player = NULL;
+	}
+	if (data->game->im->wall)
+	{
+		mlx_destroy_image(data->mlx_ptr, data->game->im->wall);
+		data->game->im->wall = NULL;
+	}
+}
+
 int	main(int argc, char *argv[])
 {
 	int			fd;

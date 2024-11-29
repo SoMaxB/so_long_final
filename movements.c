@@ -35,6 +35,7 @@ bool	handle_exit(t_mlx_data *data, int new_x, int new_y)
 		{
 			ft_printf("¡Has ganado!\n");
 			handle_close(data);
+			free(data->game);
 			return (true);
 		}
 	}

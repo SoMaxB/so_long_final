@@ -105,7 +105,7 @@ void	draw_map(t_mlx_data *data,
 void	move_player(t_mlx_data *data, int new_x, int new_y);
 int		check_accessibility(t_game *game);
 int		handle_close(t_mlx_data *data);
-
+void	destroy_images(t_mlx_data *data);
 int		handle_input(int keysym, t_mlx_data *data);
 
 int		is_map_closed(t_game *game);
