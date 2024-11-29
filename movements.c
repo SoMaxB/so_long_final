@@ -1,69 +1,71 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   movements.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jorbarro <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/28 19:43:08 by jorbarro          #+#    #+#             */
+/*   Updated: 2024/11/28 19:43:10 by jorbarro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void check_boundaries(t_mlx_data *data, int new_x, int new_y)
+void	check_boundaries(t_mlx_data *data, int new_x, int new_y)
 {
-    if (new_x < 0 || new_x >= data->game->line_x || new_y < 0 || new_y >= data->game->line_y)
-    {
-        ft_printf("Movimiento fuera de límites.\n");
-        return ;
-    }
+	if (new_x < 0 || new_x >= data->game->line_x
+		|| new_y < 0 || new_y >= data->game->line_y)
+	{
+		ft_printf("Movimiento fuera de límites.\n");
+		return ;
+	}
 }
 
-/*void collect_item(t_mlx_data *data, int new_x, int new_y)
+bool	handle_exit(t_mlx_data *data, int new_x, int new_y)
 {
-    if (data->game->map[new_y][new_x] == COLLECTIBLE) 
-    {
-        ft_printf("Recogiendo un coleccionable!\n");
-        //data->game->collectibles--;
-    }
-}*/
-
-bool handle_exit(t_mlx_data *data, int new_x, int new_y)
-{
-    if (data->game->map[new_y][new_x] == 'E') {
-        if (data->game->collectibles > 0) 
-        {
-            ft_printf("No puedes pasar, aún hay coleccionables por recoger!\n");
-            return (false);
-        } 
-        else 
-        {
-            ft_printf("¡Has ganado!\n");
-            handle_close(data);
-            return (true);
-        }
-    }
-    return (false);
+	if (data->game->map[new_y][new_x] == 'E')
+	{
+		if (data->game->collectibles > 0)
+		{
+			ft_printf("No puedes pasar, aún hay coleccionables por recoger!\n");
+			return (false);
+		}
+		else
+		{
+			ft_printf("¡Has ganado!\n");
+			handle_close(data);
+			return (true);
+		}
+	}
+	return (false);
 }
 
-void move_player_to_new_position(t_mlx_data *data, int new_x, int new_y, int current_x, int current_y)
+int	is_move_valid(t_mlx_data *data, int new_x, int new_y)
 {
-    if (data->game->map[new_y][new_x] != '1' && data->game->map[new_y][new_x] != 'E') 
-    {
-        data->game->map[current_y][current_x] = '0';
-        data->game->map[new_y][new_x] = 'P';
-        data->game->player_x = new_x;
-        data->game->player_y = new_y;
-        data->game->moves++;
-        ft_printf("Movimiento exitoso. Llevas %d movimientos\n", data->game->moves);
-        draw_map(data, data->game->im, data->game->map, data->game->line_y, data->game->line_x);
-    } 
-    else 
-    {
-        ft_printf("Movimiento bloqueado por una pared o una salida no permitida.\n");
-    }
+	return (data->game->map[new_y][new_x] != '1'
+	&& data->game->map[new_y][new_x] != 'E');
 }
 
-void move_player(t_mlx_data *data, int new_x, int new_y)
+void	update_player(t_mlx_data *data, int new_x, int new_y, t_pos *curr_pos)
 {
-    int current_x = data->game->player_x;
-    int current_y = data->game->player_y;
+	data->game->map[curr_pos->y][curr_pos->x] = '0';
+	data->game->map[new_y][new_x] = 'P';
+	data->game->player_x = new_x;
+	data->game->player_y = new_y;
+	data->game->moves++;
+	ft_printf("Llevas %d movimientos\n", data->game->moves);
+}
 
-    ft_printf("Intentando mover a X: %d, Y: %d\n", new_x, new_y);
+void	move_to_position(t_mlx_data *data, int new_x, int new_y, int current_x)
+{
+	t_pos		current_pos;
 
-    check_boundaries(data, new_x, new_y);
-    if (handle_exit(data, new_x, new_y)) 
-        return ;
-    //collect_item(data, new_x, new_y);
-    move_player_to_new_position(data, new_x, new_y, current_x, current_y);
+	current_pos.x = current_x;
+	current_pos.y = data->game->player_y;
+	if (is_move_valid(data, new_x, new_y))
+	{
+		update_player(data, new_x, new_y, &current_pos);
+		draw_map(data, data->game->im, data->game->map, data->game->line_y);
+	}
 }

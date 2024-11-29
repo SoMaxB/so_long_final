@@ -24,7 +24,7 @@ SRC = 	main.c \
 OBJ = $(SRC:.c=.o)
 
 # Opciones de compilación
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address #eliminar g3 y fsanitize antes del push final.
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address #eliminar g3 y fsanitize antes del push final.
 
 # Opciones de enlace
 LDFLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext
